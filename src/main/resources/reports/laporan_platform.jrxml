@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="laporan_platform" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    
+    <parameter name="CompanyName" class="java.lang.String"/>
+    <parameter name="Period" class="java.lang.String"/>
+    <parameter name="DateGenerated" class="java.lang.String"/>
+    
+    <queryString>
+        <![CDATA[
+        SELECT p.nama_platform, COUNT(c.id_content) as jumlah_konten
+        FROM platform p
+        LEFT JOIN content c ON p.id_platform = c.id_platform
+        GROUP BY p.nama_platform
+        ]]>
+    </queryString>
+    
+    <field name="nama_platform" class="java.lang.String"/>
+    <field name="jumlah_konten" class="java.lang.Long"/>
+    
+    <title>
+        <band height="90">
+            <!-- Company Name -->
+            <textField>
+                <reportElement x="0" y="0" width="280" height="30"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="22" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{CompanyName}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Report Title -->
+            <staticText>
+                <reportElement x="280" y="0" width="275" height="30"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[LAPORAN KEAKTIFAN PLATFORM]]></text>
+            </staticText>
+            
+            <!-- Subtitle info -->
+            <staticText>
+                <reportElement x="0" y="30" width="555" height="15"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="9" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Sistem Manajemen Konten Kreator & Publikasi Platform]]></text>
+            </staticText>
+            
+            <!-- Period -->
+            <textField>
+                <reportElement x="0" y="50" width="280" height="15"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Periode: " + $P{Period}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Date Generated -->
+            <textField>
+                <reportElement x="280" y="50" width="275" height="15"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Tanggal Unduh: " + $P{DateGenerated}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Line Separator -->
+            <line>
+                <reportElement x="0" y="75" width="555" height="1"/>
+                <graphicElement>
+                    <pen lineWidth="1.5" lineStyle="Solid"/>
+                </graphicElement>
+            </line>
+        </band>
+    </title>
+    
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="0" width="300" height="25" backcolor="#F5F5F7"/>
+                <box leftPadding="5">
+                    <pen lineWidth="0.5" lineColor="#E5E5E7"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Nama Platform]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="300" y="0" width="255" height="25" backcolor="#F5F5F7"/>
+                <box leftPadding="5">
+                    <pen lineWidth="0.5" lineColor="#E5E5E7"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Jumlah Konten]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="300" height="20"/>
+                <box leftPadding="5">
+                    <pen lineWidth="0.5" lineColor="#E5E5E7"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nama_platform} != null ? $F{nama_platform} : "-"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="255" height="20"/>
+                <box leftPadding="5">
+                    <pen lineWidth="0.5" lineColor="#E5E5E7"/>
+                </box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{jumlah_konten} != null ? $F{jumlah_konten} : 0L]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    
+    <pageFooter>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

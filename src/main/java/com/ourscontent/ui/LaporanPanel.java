@@ -49,13 +49,12 @@ public class LaporanPanel extends JPanel {
         setBorder(new EmptyBorder(25, 30, 25, 30));
         setBackground(themeBgColor);
 
-        // Initialize Dates (Default to last 30 days)
+        // inisialisasi tanggal (default 30 hari terakhir)
         Calendar cal = Calendar.getInstance();
         endDate = cal.getTime();
         cal.add(Calendar.DAY_OF_MONTH, -30);
         startDate = cal.getTime();
 
-        // --- HEADER AREA ---
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
@@ -74,18 +73,15 @@ public class LaporanPanel extends JPanel {
         headerPanel.add(subtitleLabel);
         add(headerPanel, BorderLayout.NORTH);
 
-        // --- MAIN WORKSPACE ---
         JPanel workspace = new JPanel();
         workspace.setLayout(new BoxLayout(workspace, BoxLayout.Y_AXIS));
         workspace.setOpaque(false);
 
-        // Row 1: Filter Configuration (Left) & Summary (Right)
         JPanel row1 = new JPanel(new BorderLayout(20, 0));
         row1.setOpaque(false);
         row1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 240));
         row1.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // 1.1 Filter Config Panel (Left Card)
         JPanel filterCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -103,7 +99,6 @@ public class LaporanPanel extends JPanel {
         filterCard.setLayout(new BoxLayout(filterCard, BoxLayout.Y_AXIS));
         filterCard.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        // Header inside card
         JPanel filterCardHeader = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
         filterCardHeader.setOpaque(false);
         JLabel filterIcon = new JLabel(new FunnelIcon(accentRed));
@@ -116,33 +111,27 @@ public class LaporanPanel extends JPanel {
         filterCard.add(filterCardHeader);
         filterCard.add(Box.createVerticalStrut(15));
 
-        // Filter Fields Container
         JPanel fieldsPanel = new JPanel(new GridLayout(4, 1, 0, 10));
         fieldsPanel.setOpaque(false);
         fieldsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Jenis Laporan field
         cbJenisLaporan = new JComboBox<>(new String[]{"Laporan Konten", "Laporan Performa", "Laporan Platform"});
         styleComboBox(cbJenisLaporan);
         addFilterFormRow(fieldsPanel, "Jenis Laporan", cbJenisLaporan);
 
-        // Platform field
         cbPlatform = new JComboBox<>();
         styleComboBox(cbPlatform);
         addFilterFormRow(fieldsPanel, "Platform", cbPlatform);
 
-        // Mulai Tanggal field
         txtMulaiTanggal = createDateField(displaySdf.format(startDate));
         addFilterFormRow(fieldsPanel, "Mulai Tanggal", txtMulaiTanggal);
 
-        // Sampai Tanggal field
         txtSampaiTanggal = createDateField(displaySdf.format(endDate));
         addFilterFormRow(fieldsPanel, "Sampai Tanggal", txtSampaiTanggal);
 
         filterCard.add(fieldsPanel);
         row1.add(filterCard, BorderLayout.CENTER);
 
-        // 1.2 Summary Card (Right Card)
         JPanel summaryCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -161,7 +150,6 @@ public class LaporanPanel extends JPanel {
         summaryCard.setLayout(new BorderLayout());
         summaryCard.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        // Header inside summary card
         JPanel summaryHeader = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
         summaryHeader.setOpaque(false);
         JLabel summaryIcon = new JLabel(new BarChartIcon(accentRed));
@@ -172,7 +160,6 @@ public class LaporanPanel extends JPanel {
         summaryHeader.add(summaryTitleLabel);
         summaryCard.add(summaryHeader, BorderLayout.NORTH);
 
-        // Center Content of Summary
         JPanel summaryBody = new JPanel(new GridBagLayout());
         summaryBody.setOpaque(false);
         
@@ -200,7 +187,6 @@ public class LaporanPanel extends JPanel {
         workspace.add(row1);
         workspace.add(Box.createVerticalStrut(20));
 
-        // Row 2: Export Actions (Bottom Panel)
         JPanel exportCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -232,7 +218,6 @@ public class LaporanPanel extends JPanel {
         exportCard.add(exportHeader);
         exportCard.add(Box.createVerticalStrut(15));
 
-        // Action items list
         JPanel actionsContainer = new JPanel();
         actionsContainer.setLayout(new BoxLayout(actionsContainer, BoxLayout.Y_AXIS));
         actionsContainer.setOpaque(false);
@@ -253,7 +238,7 @@ public class LaporanPanel extends JPanel {
 
         add(workspace, BorderLayout.CENTER);
 
-        // Click actions for date inputs to trigger custom date range picker dialog
+        // klik input tanggal buat buka custom date range picker
         MouseAdapter dateFieldClick = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -263,7 +248,7 @@ public class LaporanPanel extends JPanel {
         txtMulaiTanggal.addMouseListener(dateFieldClick);
         txtSampaiTanggal.addMouseListener(dateFieldClick);
 
-        // Load content providers and initial summaries
+        // muat platform sama ringkasan awal
         loadPlatforms();
         cbJenisLaporan.addActionListener(e -> updateSummary());
         cbPlatform.addActionListener(e -> updateSummary());
@@ -279,11 +264,10 @@ public class LaporanPanel extends JPanel {
         tf.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         tf.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        // Add calendar symbol padding/outline
         tf.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(borderColor, 1),
                 BorderFactory.createCompoundBorder(
-                        new EmptyBorder(5, 7, 5, 30), // Right padding to clear the icon
+                        new EmptyBorder(5, 7, 5, 30),
                         new EmptyBorder(0, 0, 0, 0)
                 )
         ));
@@ -329,10 +313,8 @@ public class LaporanPanel extends JPanel {
         row.setBorder(new EmptyBorder(12, 16, 12, 16));
         row.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Left Icon block
         JLabel lblIcon = new JLabel(icon);
 
-        // Center Text block
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setOpaque(false);
@@ -349,7 +331,6 @@ public class LaporanPanel extends JPanel {
         textPanel.add(Box.createVerticalStrut(2));
         textPanel.add(lblDesc);
 
-        // Right Arrow Chevron block
         JLabel lblArrow = new JLabel(">");
         lblArrow.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblArrow.setForeground(textSecondaryColor);
@@ -653,7 +634,6 @@ public class LaporanPanel extends JPanel {
              ResultSet rs = stmt.executeQuery(sql);
              FileWriter fw = new FileWriter(path)) {
 
-            // Write metadata header
             fw.append("OursContent - Sistem Manajemen Konten Kreator\n");
             fw.append("Laporan," + escapeCSV(selected) + "\n");
             fw.append("Platform," + escapeCSV(platform) + "\n");
@@ -716,11 +696,9 @@ public class LaporanPanel extends JPanel {
         mainWrapper.setLayout(new BorderLayout());
         mainWrapper.setBorder(new EmptyBorder(15, 15, 15, 15));
 
-        // Two Month Calendars Side-by-Side Panel
         JPanel calendarsPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         calendarsPanel.setOpaque(false);
 
-        // Get calendars for Left (previous/current) and Right (current/next) month views
         Calendar leftCal = Calendar.getInstance();
         leftCal.setTime(startDate);
         
@@ -735,15 +713,14 @@ public class LaporanPanel extends JPanel {
         calendarsPanel.add(rightMonthView);
         mainWrapper.add(calendarsPanel, BorderLayout.CENTER);
 
-        // Preset Shortcut Buttons at the Bottom
         JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 10));
         footerPanel.setOpaque(false);
 
         JButton btnToday = createPresetButton("Hari Ini", dialog, 0);
         JButton btn7Days = createPresetButton("7 Hari Terakhir", dialog, -7);
         JButton btn30Days = createPresetButton("30 Hari Terakhir", dialog, -30);
-        JButton btnThisMonth = createPresetButton("Bulan Ini", dialog, -99); // Special flag
-        JButton btnLastMonth = createPresetButton("Bulan Lalu", dialog, -100); // Special flag
+        JButton btnThisMonth = createPresetButton("Bulan Ini", dialog, -99);
+        JButton btnLastMonth = createPresetButton("Bulan Lalu", dialog, -100);
         JButton btnClose = createPresetButton("Tutup", dialog, -999);
         btnClose.setBackground(new Color(58, 58, 60));
 
@@ -759,7 +736,7 @@ public class LaporanPanel extends JPanel {
         dialog.setContentPane(mainWrapper);
         dialog.pack();
         dialog.setSize(650, 370);
-        dialog.setLocationRelativeTo(txtMulaiTanggal); // Show aligned with date input
+        dialog.setLocationRelativeTo(txtMulaiTanggal);
         dialog.setVisible(true);
     }
 
@@ -767,7 +744,6 @@ public class LaporanPanel extends JPanel {
         JPanel monthPanel = new JPanel(new BorderLayout());
         monthPanel.setOpaque(false);
 
-        // Month Title Label
         SimpleDateFormat monthYearSdf = new SimpleDateFormat("MMMM yyyy");
         JLabel lblMonthName = new JLabel(monthYearSdf.format(monthCal.getTime()), SwingConstants.CENTER);
         lblMonthName.setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -775,7 +751,6 @@ public class LaporanPanel extends JPanel {
         lblMonthName.setBorder(new EmptyBorder(0, 0, 10, 0));
         monthPanel.add(lblMonthName, BorderLayout.NORTH);
 
-        // Days Grid (7 cols: Su, Mo, Tu, We, Th, Fr, Sa)
         JPanel daysGrid = new JPanel(new GridLayout(0, 7, 2, 2));
         daysGrid.setOpaque(false);
 
@@ -787,7 +762,6 @@ public class LaporanPanel extends JPanel {
             daysGrid.add(lblWd);
         }
 
-        // Days calculation
         Calendar helperCal = Calendar.getInstance();
         helperCal.setTime(monthCal.getTime());
         helperCal.set(Calendar.DAY_OF_MONTH, 1);
@@ -795,7 +769,6 @@ public class LaporanPanel extends JPanel {
         int firstDayOfWeek = helperCal.get(Calendar.DAY_OF_WEEK);
         int daysInMonth = helperCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        // Empty items before first day of month
         for (int i = 1; i < firstDayOfWeek; i++) {
             daysGrid.add(new JLabel(""));
         }
@@ -839,7 +812,7 @@ public class LaporanPanel extends JPanel {
                         g2.setColor(accentRed);
                         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
                     } else if (inRange) {
-                        g2.setColor(new Color(250, 88, 106, 40)); // Muted red tint
+                        g2.setColor(new Color(250, 88, 106, 40));
                         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
                     }
                     g2.dispose();
@@ -850,7 +823,6 @@ public class LaporanPanel extends JPanel {
             btnDay.setMargin(new Insets(0, 0, 0, 0));
             btnDay.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             
-            // Text color based on range
             boolean isSelectedOrInRange = false;
             if (dateVal != null) {
                 long targetTime = stripTime(dateVal).getTime();
@@ -888,7 +860,7 @@ public class LaporanPanel extends JPanel {
             btnDay.setPreferredSize(new Dimension(24, 24));
 
             btnDay.addActionListener(e -> {
-                // Clicking logic: Sets start date first, then end date
+                // logika klik: pasang tanggal mulai dulu, baru tanggal selesai
                 if (startDate != null && endDate != null) {
                     startDate = dateVal;
                     endDate = null;
@@ -952,20 +924,20 @@ public class LaporanPanel extends JPanel {
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date());
 
-            if (offsetDays == -99) { // Bulan Ini
+            if (offsetDays == -99) {
                 endDate = cal.getTime();
                 cal.set(Calendar.DAY_OF_MONTH, 1);
                 startDate = cal.getTime();
-            } else if (offsetDays == -100) { // Bulan Lalu
+            } else if (offsetDays == -100) {
                 cal.add(Calendar.MONTH, -1);
                 cal.set(Calendar.DAY_OF_MONTH, 1);
                 startDate = cal.getTime();
                 cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
                 endDate = cal.getTime();
-            } else if (offsetDays == -999) { // Close
+            } else if (offsetDays == -999) {
                 dialog.dispose();
                 return;
-            } else { // Normal presets (Today, Last 7, Last 30)
+            } else {
                 endDate = cal.getTime();
                 if (offsetDays < 0) {
                     cal.add(Calendar.DAY_OF_MONTH, offsetDays);

@@ -33,20 +33,17 @@ public class ProfilePanel extends JPanel {
 
         setLayout(new BorderLayout(20, 0));
         setBorder(new EmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(28, 28, 30)); // Background Utama
+        setBackground(new Color(28, 28, 30));
 
-        // Header Title
         JLabel titleLabel = new JLabel("Profil Anda");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        titleLabel.setForeground(new Color(245, 245, 247)); // Primary Text
+        titleLabel.setForeground(new Color(245, 245, 247));
         titleLabel.setBorder(new EmptyBorder(0, 0, 15, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Center split: Form di Kiri, User Card di Kanan
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         centerPanel.setOpaque(false);
 
-        // 1. LEFT PANEL: EDIT FORM
         JPanel formCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -54,7 +51,7 @@ public class ProfilePanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 g2.dispose();
             }
@@ -93,7 +90,6 @@ public class ProfilePanel extends JPanel {
 
         centerPanel.add(formCard);
 
-        // 2. RIGHT PANEL: PREMIUM USER CARD
         JPanel infoCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -101,10 +97,10 @@ public class ProfilePanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 
-                // Draw a nice soft ambient lighting circle behind the avatar
+                // gambar efek lighting/gradasi di belakang avatar
                 g2.setPaint(new RadialGradientPaint(
                         new Point(getWidth() / 2, 80),
                         80f,
@@ -120,13 +116,12 @@ public class ProfilePanel extends JPanel {
         infoCard.setBackground(new Color(37, 37, 39));
         infoCard.setBorder(new EmptyBorder(25, 20, 25, 20));
 
-        // Profile Avatar Representation (Vector Circle with Initials)
         JPanel avatarPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(250, 88, 106)); // Accent Red
+                g2.setColor(new Color(250, 88, 106));
                 g2.fillOval(0, 0, getWidth(), getHeight());
                 
                 g2.setColor(Color.WHITE);
@@ -225,7 +220,7 @@ public class ProfilePanel extends JPanel {
             return;
         }
 
-        // Verifikasi password lama jika username diubah atau jika password ingin diganti
+        // verifikasi password lama kalo username diubah atau mau ganti password
         boolean isUsernameChanged = !username.equalsIgnoreCase(currentUser.getUsername());
         boolean isChangingPassword = !newPassword.isEmpty() || !confirmPassword.isEmpty();
 
@@ -241,7 +236,7 @@ public class ProfilePanel extends JPanel {
             }
         }
 
-        // Jalankan Update Profile
+        // jalankan update profil
         if (isUsernameChanged && userDAO.isUsernameExists(username)) {
             OurIsland.show(this, "Username telah digunakan oleh orang lain!", OurIsland.IslandType.ERROR);
             return;
@@ -251,7 +246,7 @@ public class ProfilePanel extends JPanel {
             currentUser.setFullname(fullname);
             currentUser.setUsername(username);
             
-            // Password change flow
+            // alur ganti password
             if (isChangingPassword) {
                 if (newPassword.length() < 4) {
                     OurIsland.show(this, "Password baru minimal 4 karakter!", OurIsland.IslandType.ERROR);

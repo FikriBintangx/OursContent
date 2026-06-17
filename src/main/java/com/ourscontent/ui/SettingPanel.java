@@ -24,21 +24,18 @@ public class SettingPanel extends JPanel {
         this.currentUser = user;
         setLayout(new BorderLayout(20, 0));
         setBorder(new EmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(28, 28, 30)); // Background Utama
+        setBackground(new Color(28, 28, 30));
 
-        // Header Title
         JLabel titleLabel = new JLabel("Pengaturan");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        titleLabel.setForeground(new Color(245, 245, 247)); // Primary Text
+        titleLabel.setForeground(new Color(245, 245, 247));
         titleLabel.setBorder(new EmptyBorder(0, 0, 15, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Center Area (Scrollable settings list)
         JPanel contentContainer = new JPanel();
         contentContainer.setLayout(new BoxLayout(contentContainer, BoxLayout.Y_AXIS));
         contentContainer.setOpaque(false);
 
-        // 1. DATABASE CONNECTION CARD
         JPanel dbCard = createSettingCard("Konfigurasi Database");
         dbCard.setLayout(new BoxLayout(dbCard, BoxLayout.Y_AXIS));
 
@@ -65,7 +62,6 @@ public class SettingPanel extends JPanel {
         contentContainer.add(dbCard);
         contentContainer.add(Box.createVerticalStrut(15));
 
-        // 2. GENERAL PREFERENCES CARD
         JPanel prefCard = createSettingCard("Preferensi Aplikasi");
         prefCard.setLayout(new BoxLayout(prefCard, BoxLayout.Y_AXIS));
 
@@ -85,7 +81,6 @@ public class SettingPanel extends JPanel {
         chkNotifications.setSelected(true);
         chkNotifications.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Theme combobox
         JLabel lblTheme = new JLabel("Tema Tampilan");
         lblTheme.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lblTheme.setForeground(new Color(161, 161, 170));
@@ -113,7 +108,6 @@ public class SettingPanel extends JPanel {
         contentContainer.add(prefCard);
         contentContainer.add(Box.createVerticalStrut(15));
 
-        // 3. ABOUT APPLICATION CARD
         JPanel aboutCard = createSettingCard("Tentang Aplikasi");
         aboutCard.setLayout(new BoxLayout(aboutCard, BoxLayout.Y_AXIS));
 
@@ -140,9 +134,7 @@ public class SettingPanel extends JPanel {
 
         contentContainer.add(aboutCard);
 
-        // User Management is now its own dedicated panel/menu in the sidebar.
-
-        // Wrap content inside a JScrollPane for scrollability
+        // bungkus konten dalam JScrollPane biar bisa di-scroll
         JScrollPane scrollPane = new JScrollPane(contentContainer);
         scrollPane.setBorder(null);
         scrollPane.setOpaque(false);
@@ -150,7 +142,7 @@ public class SettingPanel extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        // Perform initial connection test asynchronously
+        // tes koneksi awal lewat background thread
         SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
             @Override
             protected Boolean doInBackground() {
@@ -219,7 +211,7 @@ public class SettingPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 g2.dispose();
             }

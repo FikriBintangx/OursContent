@@ -40,10 +40,10 @@ public class MainFrame extends JFrame {
 
     public MainFrame(com.ourscontent.model.User user) {
         this.currentUser = user;
-        // Apply FlatLaf Dark theme
+        // pasang tema gelap FlatLaf
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
-            // Customize to match Apple dark style
+            // sesuaikan gaya ala Apple
             UIManager.put("Panel.background", new Color(28, 28, 30));
             UIManager.put("TableHeader.background", new Color(44, 44, 46));
             UIManager.put("TableHeader.foreground", new Color(245, 245, 247));
@@ -52,44 +52,42 @@ public class MainFrame extends JFrame {
             UIManager.put("Table.gridColor", new Color(58, 58, 60));
             UIManager.put("ScrollPane.border", BorderFactory.createEmptyBorder());
             
-            // Global rounding values (Matching Apple Specifications)
-            UIManager.put("Button.arc", 8); // Button: 8px - 10px
-            UIManager.put("Component.arc", 10); // Components: 10px - 12px
-            UIManager.put("TextComponent.arc", 10); // Search Bar / Inputs: 10px - 12px
+            // bikin sudut membulat global
+            UIManager.put("Button.arc", 8);
+            UIManager.put("Component.arc", 10);
+            UIManager.put("TextComponent.arc", 10);
             UIManager.put("ComboBox.arc", 10);
         } catch (Exception ex) {
-            System.err.println("Failed to initialize Look and Feel");
+            System.err.println("Gagal memuat Look and Feel");
         }
 
         setTitle("OursContent - Sistem Manajemen Konten Kreator");
         setSize(1000, 650);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Default to maximized/fullscreen
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Main Container
         JPanel mainContainer = new JPanel(new BorderLayout(15, 0));
-        mainContainer.setBackground(new Color(28, 28, 30)); // Background Utama
-        mainContainer.setBorder(new EmptyBorder(15, 15, 15, 15)); // Floating window margin
+        mainContainer.setBackground(new Color(28, 28, 30));
+        mainContainer.setBorder(new EmptyBorder(15, 15, 15, 15));
 
-        // 1. Sidebar Navigation (Left Panel) - Rounded Floating Card
+        // 1. Navigasi Sidebar (Panel Kiri)
         sidebar = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24); // Apple style rounding
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
                 g2.dispose();
             }
         };
         sidebar.setOpaque(false);
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
         sidebar.setPreferredSize(new Dimension(200, 0));
-        sidebar.setBackground(new Color(37, 37, 39)); // Sidebar Background
+        sidebar.setBackground(new Color(37, 37, 39));
         sidebar.setBorder(new EmptyBorder(20, 15, 20, 15));
 
-        // Logo / Title area
         JPanel logoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         logoPanel.setOpaque(false);
         logoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -99,7 +97,7 @@ public class MainFrame extends JFrame {
             java.io.File svgFile = new java.io.File("assets/img/logoourss.svg");
             if (svgFile.exists()) {
                 com.formdev.flatlaf.extras.FlatSVGIcon svgIcon = new com.formdev.flatlaf.extras.FlatSVGIcon(svgFile);
-                logoLabel.setIcon(svgIcon.derive(140, 140)); // Render perfectly crisp at 140x140
+                logoLabel.setIcon(svgIcon.derive(140, 140));
             } else {
                 logoLabel.setText("OursContent");
                 logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -115,7 +113,6 @@ public class MainFrame extends JFrame {
         sidebar.add(logoPanel);
         sidebar.add(Box.createVerticalStrut(20));
 
-        // Navigation Menu Buttons
         menuButtons = new HashMap<>();
         java.util.List<String[]> menuList = new java.util.ArrayList<>();
         menuList.add(new String[]{"dashboard", "Dashboard"});
@@ -137,18 +134,16 @@ public class MainFrame extends JFrame {
             menuButtons.put(key, btn);
         }
         
-        // Spacer to push settings/profile/logout to the bottom
+        // spacer biar tombol setting/profile/logout ke dorong ke bawah
         sidebar.add(Box.createVerticalGlue());
         
-        // Divider line
         JSeparator separator = new JSeparator();
-        separator.setForeground(new Color(58, 58, 60)); // Border Color
+        separator.setForeground(new Color(58, 58, 60));
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
         separator.setAlignmentX(Component.LEFT_ALIGNMENT);
         sidebar.add(separator);
         sidebar.add(Box.createVerticalStrut(15));
 
-        // Bottom Menu Items
         JButton btnSetting = createMenuButton("Setting", "setting");
         JButton btnProfile = createMenuButton("Profile", "profile");
         JButton btnLogout = createMenuButton("Logout", "logout");
@@ -156,7 +151,6 @@ public class MainFrame extends JFrame {
         menuButtons.put("setting", btnSetting);
         menuButtons.put("profile", btnProfile);
 
-        // Action listeners for bottom buttons
         btnSetting.addActionListener(e -> switchPanel("setting"));
         btnProfile.addActionListener(e -> switchPanel("profile"));
         btnLogout.addActionListener(e -> {
@@ -172,12 +166,11 @@ public class MainFrame extends JFrame {
 
         mainContainer.add(sidebar, BorderLayout.WEST);
 
-        // 2. Workspace (Right Panel)
+        // 2. Workspace (Panel Kanan)
         cardLayout = new CardLayout();
         workspace = new JPanel(cardLayout);
-        workspace.setOpaque(false); // Let the background show
+        workspace.setOpaque(false);
 
-        // Panels
         dashboardPanel = new DashboardPanel();
         platformPanel = new PlatformPanel();
         contentPanel = new ContentPanel();
@@ -199,9 +192,9 @@ public class MainFrame extends JFrame {
         mainContainer.add(workspace, BorderLayout.CENTER);
 
         add(mainContainer);
-        switchPanel("dashboard"); // Default
+        switchPanel("dashboard");
 
-        // Hide platform menu if the logged-in user is not ADMIN
+        // sembunyiin menu platform kalo user bukan ADMIN
         if (currentUser != null && !"ADMIN".equalsIgnoreCase(currentUser.getRole())) {
             JButton platformBtn = menuButtons.get("platform");
             if (platformBtn != null) {
@@ -233,14 +226,13 @@ public class MainFrame extends JFrame {
                 
                 boolean isLight = isLightTheme;
                 if (isActive) {
-                    g2.setColor(isLight ? new Color(210, 210, 215) : new Color(52, 52, 56)); // Active background
+                    g2.setColor(isLight ? new Color(210, 210, 215) : new Color(52, 52, 56));
                     g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
                 } else if (isHovered) {
-                    g2.setColor(isLight ? new Color(225, 225, 230) : new Color(44, 44, 46)); // Hover Background
+                    g2.setColor(isLight ? new Color(225, 225, 230) : new Color(44, 44, 46));
                     g2.fillRoundRect(0, 0, getWidth(), getHeight(), 12, 12);
                 }
                 
-                // Vector icon drawing
                 if (key != null) {
                     Color iconColor = isActive ? new Color(250, 88, 106) : (isHovered ? (isLight ? new Color(28, 28, 30) : new Color(245, 245, 247)) : (isLight ? new Color(110, 110, 115) : new Color(161, 161, 170)));
                     g2.setColor(iconColor);
@@ -251,39 +243,30 @@ public class MainFrame extends JFrame {
                     int size = 14;
                     
                     if ("dashboard".equals(key)) {
-                        // ◻ Hollow Square
                         g2.drawRect(x, y, size, size);
                     } else if ("platform".equals(key)) {
-                        // ▦ Platform (Grid: 4 small squares)
                         int h = size / 2 - 1;
                         g2.drawRect(x, y, h, h);
                         g2.drawRect(x + size/2 + 1, y, h, h);
                         g2.drawRect(x, y + size/2 + 1, h, h);
                         g2.drawRect(x + size/2 + 1, y + size/2 + 1, h, h);
                     } else if ("content".equals(key)) {
-                        // ◫ Content (overlapping squares / document)
                         g2.drawRoundRect(x + 2, y, size - 4, size, 3, 3);
                         g2.drawLine(x + 5, y + 4, x + size - 5, y + 4);
                         g2.drawLine(x + 5, y + 7, x + size - 5, y + 7);
                     } else if ("performa".equals(key)) {
-                        // ◉ Performa (concentric circles)
                         g2.drawOval(x, y, size, size);
                         g2.fillOval(x + 4, y + 4, size - 8, size - 8);
                     } else if ("laporan".equals(key)) {
-                        // ◬ Laporan (triangle)
                         int[] xPoints = {x + size / 2, x, x + size};
                         int[] yPoints = {y, y + size, y + size};
                         g2.drawPolygon(xPoints, yPoints, 3);
                     } else if ("tambahkan_user".equals(key)) {
-                        // head
                         g2.drawOval(x + 2, y + 1, size - 8, size - 8);
-                        // body
                         g2.drawArc(x, y + 7, size - 4, size - 4, 0, 180);
-                        // plus sign
                         g2.drawLine(x + size - 2, y + 2, x + size - 2, y + 6);
                         g2.drawLine(x + size - 4, y + 4, x + size, y + 4);
                     } else if ("setting".equals(key)) {
-                        // ⚙ Setting (gear)
                         g2.drawOval(x + 3, y + 3, size - 6, size - 6);
                         for (int i = 0; i < 8; i++) {
                             double angle = i * Math.PI / 4;
@@ -296,11 +279,9 @@ public class MainFrame extends JFrame {
                             g2.drawLine(x1, y1, x2, y2);
                         }
                     } else if ("profile".equals(key)) {
-                        // ◌ Profile
                         g2.drawOval(x + 3, y + 1, size - 6, size - 6);
                         g2.drawArc(x + 1, y + 7, size - 2, size - 4, 0, 180);
                     } else if ("logout".equals(key)) {
-                        // ⎋ Logout
                         g2.drawArc(x, y, size - 4, size, 90, 180);
                         g2.drawLine(x + 3, y + size / 2, x + size, y + size / 2);
                         g2.drawLine(x + size - 3, y + size / 2 - 3, x + size, y + size / 2);
@@ -313,7 +294,7 @@ public class MainFrame extends JFrame {
             }
         };
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btn.setForeground(new Color(161, 161, 170)); // Secondary Text
+        btn.setForeground(new Color(161, 161, 170));
         btn.setBorder(BorderFactory.createEmptyBorder(8, 38, 8, 16));
         btn.setContentAreaFilled(false);
         btn.setOpaque(false);
@@ -323,14 +304,13 @@ public class MainFrame extends JFrame {
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Hover Effect
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn.putClientProperty("hovered", true);
                 if (key != null && !key.equals(currentActiveKey)) {
-                    btn.setForeground(new Color(245, 245, 247)); // Primary Text
+                    btn.setForeground(new Color(245, 245, 247));
                 } else if (key == null) {
-                    btn.setForeground(new Color(245, 245, 247)); // Bottom items
+                    btn.setForeground(new Color(245, 245, 247));
                 }
                 btn.repaint();
             }
@@ -338,7 +318,7 @@ public class MainFrame extends JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn.putClientProperty("hovered", false);
                 if (key != null && !key.equals(currentActiveKey)) {
-                    btn.setForeground(new Color(161, 161, 170)); // Secondary Text
+                    btn.setForeground(new Color(161, 161, 170));
                 } else if (key == null) {
                     btn.setForeground(new Color(161, 161, 170));
                 }
@@ -351,19 +331,19 @@ public class MainFrame extends JFrame {
 
     private void switchPanel(String key) {
         currentActiveKey = key;
-        // Update menu highlight
+        // update highlight menu aktif
         boolean isLight = isLightTheme;
         for (Map.Entry<String, JButton> entry : menuButtons.entrySet()) {
             JButton btn = entry.getValue();
             if (entry.getKey().equals(key)) {
-                btn.setForeground(new Color(250, 88, 106)); // Active Menu Text (Apple Red)
+                btn.setForeground(new Color(250, 88, 106));
             } else {
-                btn.setForeground(isLight ? new Color(110, 110, 115) : new Color(161, 161, 170)); // Secondary Text
+                btn.setForeground(isLight ? new Color(110, 110, 115) : new Color(161, 161, 170));
             }
             btn.repaint();
         }
 
-        // Refresh dynamic list options
+        // refresh pilihan list dinamis
         if (key.equals("dashboard")) {
             dashboardPanel.refreshData();
         } else if (key.equals("content")) {
@@ -380,11 +360,11 @@ public class MainFrame extends JFrame {
     public void setTheme(boolean isLight) {
         this.isLightTheme = isLight;
         if (isLight) {
-            mainBgColor = new Color(245, 245, 247); // Soft White #F5F5F7
-            cardBgColor = new Color(255, 255, 255); // Pure White #FFFFFF
-            borderColor = new Color(229, 229, 231); // Soft Gray #E5E5E7
-            textPrimaryColor = new Color(29, 29, 31); // Primary Text #1D1D1F
-            textSecondaryColor = new Color(110, 110, 115); // Secondary Text #6E6E73
+            mainBgColor = new Color(245, 245, 247);
+            cardBgColor = new Color(255, 255, 255);
+            borderColor = new Color(229, 229, 231);
+            textPrimaryColor = new Color(29, 29, 31);
+            textSecondaryColor = new Color(110, 110, 115);
         } else {
             mainBgColor = new Color(28, 28, 30);
             cardBgColor = new Color(44, 44, 46);
@@ -429,7 +409,7 @@ public class MainFrame extends JFrame {
                 sidebar.setBackground(isLight ? new Color(255, 255, 255) : new Color(37, 37, 39));
             }
 
-            // Propagate theme updates dynamically
+            // update warna komponen secara dinamis
             updateComponentColors(this, isLight);
 
             // Specific panel updates
@@ -443,7 +423,7 @@ public class MainFrame extends JFrame {
                 contentPanel.updateTheme(isLight);
             }
 
-            // Repaint everything
+            // gambar ulang semua komponen
             SwingUtilities.invokeLater(() -> {
                 this.invalidate();
                 this.validate();
@@ -459,7 +439,7 @@ public class MainFrame extends JFrame {
             if (c instanceof JPanel) {
                 JPanel panel = (JPanel) c;
                 
-                // Identify panels by their backgrounds to preserve specific accent panels
+                // cari panel berdasarkan warnanya biar aksen warna ga hilang
                 Color bg = panel.getBackground();
                 if (bg != null) {
                     if (bg.equals(new Color(28, 28, 30)) || bg.equals(new Color(240, 240, 242)) || bg.equals(new Color(242, 242, 247)) || bg.equals(new Color(245, 245, 247))) {

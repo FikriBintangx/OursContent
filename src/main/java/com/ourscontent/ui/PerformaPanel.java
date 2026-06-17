@@ -31,9 +31,8 @@ public class PerformaPanel extends JPanel {
 
         setLayout(new BorderLayout(20, 0));
         setBorder(new EmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(28, 28, 30)); // Background Utama
+        setBackground(new Color(28, 28, 30));
 
-        // Left Panel: Form Input
         JPanel formPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -41,29 +40,27 @@ public class PerformaPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 g2.dispose();
             }
         };
         formPanel.setOpaque(false);
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-        formPanel.setBackground(new Color(44, 44, 46)); // Card Background
+        formPanel.setBackground(new Color(44, 44, 46));
         formPanel.setPreferredSize(new Dimension(300, 0));
         formPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         JLabel formTitle = new JLabel("Form Performa");
         formTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        formTitle.setForeground(new Color(245, 245, 247)); // Primary Text
+        formTitle.setForeground(new Color(245, 245, 247));
         formTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         formPanel.add(formTitle);
         formPanel.add(Box.createVerticalStrut(15));
 
-        // Hidden ID
         txtId = new JTextField();
         txtId.setVisible(false);
 
-        // Fields
         cbContent = new JComboBox<>();
         styleComboBox(cbContent);
 
@@ -75,9 +72,9 @@ public class PerformaPanel extends JPanel {
         txtEngagement = createStyledTextField();
         txtEngagement.setEditable(false);
         txtEngagement.setBackground(new Color(28, 28, 30));
-        txtEngagement.setForeground(new Color(250, 88, 106)); // Apple Red color for highlight
+        txtEngagement.setForeground(new Color(250, 88, 106));
 
-        // Set default date
+        // pasang tanggal default hari ini
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         txtTanggal.setText(sdf.format(new java.util.Date()));
 
@@ -90,7 +87,7 @@ public class PerformaPanel extends JPanel {
 
         formPanel.add(Box.createVerticalStrut(15));
 
-        // DocumentListener for Real-time Engagement Auto-calculation
+        // hitung otomatis engagement pas input berubah
         DocumentListener engagementCalc = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { updateEngagement(); }
@@ -102,7 +99,6 @@ public class PerformaPanel extends JPanel {
         txtLikes.getDocument().addDocumentListener(engagementCalc);
         txtKomentar.getDocument().addDocumentListener(engagementCalc);
 
-        // Buttons
         JPanel btnPanel = new JPanel(new GridLayout(2, 2, 8, 8));
         btnPanel.setBackground(new Color(44, 44, 46));
         btnPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
@@ -121,7 +117,6 @@ public class PerformaPanel extends JPanel {
         formPanel.add(btnPanel);
         add(formPanel, BorderLayout.WEST);
 
-        // Right Panel: Table Performa
         JPanel tableContainer = new JPanel(new BorderLayout());
         tableContainer.setBackground(new Color(28, 28, 30));
 
@@ -151,7 +146,7 @@ public class PerformaPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 g2.dispose();
             }
@@ -359,7 +354,7 @@ public class PerformaPanel extends JPanel {
     private void addFormField(JPanel panel, String labelText, JComponent component) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        label.setForeground(new Color(161, 161, 170)); // Secondary Text
+        label.setForeground(new Color(161, 161, 170));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         component.setAlignmentX(Component.LEFT_ALIGNMENT);
 

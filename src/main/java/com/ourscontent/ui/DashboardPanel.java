@@ -18,7 +18,7 @@ public class DashboardPanel extends JPanel {
     private JPanel panelPlatformAktif;
     private PerformanceChartPanel chartPanel;
 
-    // Loading & Shimmer states
+    // status loading & shimmer
     private boolean isLoading = false;
     private int shimmerAlpha = 100;
     private boolean shimmerUp = true;
@@ -51,19 +51,16 @@ public class DashboardPanel extends JPanel {
     public DashboardPanel() {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(28, 28, 30)); // Background Utama
+        setBackground(new Color(28, 28, 30));
 
-        // Header Title
         JLabel titleLabel = new JLabel("Dashboard");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        titleLabel.setForeground(new Color(245, 245, 247)); // Primary Text
+        titleLabel.setForeground(new Color(245, 245, 247));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Center Panel (Grid of Cards & Split Bottom Panel)
         JPanel centerPanel = new JPanel(new BorderLayout(0, 15));
         centerPanel.setBackground(new Color(28, 28, 30));
 
-        // Grid Cards (Top)
         JPanel cardsGrid = new JPanel(new GridLayout(1, 4, 15, 0));
         cardsGrid.setBackground(new Color(28, 28, 30));
 
@@ -87,11 +84,9 @@ public class DashboardPanel extends JPanel {
 
         centerPanel.add(mainGrid, BorderLayout.CENTER);
 
-        // Bottom Split (Best Content & Active Platform)
         JPanel bottomSplit = new JPanel(new GridLayout(1, 2, 20, 0));
         bottomSplit.setBackground(new Color(28, 28, 30));
 
-        // Best Content Panel
         JPanel bestContentCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -99,7 +94,7 @@ public class DashboardPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 
                 if (isLoading) {
@@ -116,37 +111,37 @@ public class DashboardPanel extends JPanel {
         };
         bestContentCard.setOpaque(false);
         bestContentCard.setLayout(new BoxLayout(bestContentCard, BoxLayout.Y_AXIS));
-        bestContentCard.setBackground(new Color(44, 44, 46)); // Card Background
+        bestContentCard.setBackground(new Color(44, 44, 46));
         bestContentCard.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         JLabel lblBestHeader = new JLabel("Konten Terbaik Bulan Ini");
         lblBestHeader.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblBestHeader.setForeground(new Color(245, 245, 247)); // Primary Text
+        lblBestHeader.setForeground(new Color(245, 245, 247));
         lblBestHeader.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         lblBestTitle = new JLabel("Judul: -");
         lblBestTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblBestTitle.setForeground(new Color(250, 88, 106)); // Apple Red
+        lblBestTitle.setForeground(new Color(250, 88, 106));
         lblBestTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         lblBestViews = new JLabel("Views: 0");
         lblBestViews.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblBestViews.setForeground(new Color(161, 161, 170)); // Secondary Text
+        lblBestViews.setForeground(new Color(161, 161, 170));
         lblBestViews.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         lblBestLikes = new JLabel("Likes: 0");
         lblBestLikes.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblBestLikes.setForeground(new Color(161, 161, 170)); // Secondary Text
+        lblBestLikes.setForeground(new Color(161, 161, 170));
         lblBestLikes.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         lblBestKomentar = new JLabel("Komentar: 0");
         lblBestKomentar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblBestKomentar.setForeground(new Color(161, 161, 170)); // Secondary Text
+        lblBestKomentar.setForeground(new Color(161, 161, 170));
         lblBestKomentar.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         lblBestPlatform = new JLabel("Platform: -");
         lblBestPlatform.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-        lblBestPlatform.setForeground(new Color(161, 161, 170)); // Secondary Text
+        lblBestPlatform.setForeground(new Color(161, 161, 170));
         lblBestPlatform.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         bestContentCard.add(lblBestHeader);
@@ -161,7 +156,6 @@ public class DashboardPanel extends JPanel {
 
         bottomSplit.add(bestContentCard);
 
-        // Active Platform Panel
         JPanel activePlatformCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -169,7 +163,7 @@ public class DashboardPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 18, 18);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 18, 18);
                 
                 if (isLoading) {
@@ -213,7 +207,7 @@ public class DashboardPanel extends JPanel {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(getBackground());
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 14, 14);
-                g2.setColor(MainFrame.borderColor); // Border
+                g2.setColor(MainFrame.borderColor);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 14, 14);
                 
                 if (isLoading) {
@@ -225,15 +219,15 @@ public class DashboardPanel extends JPanel {
             }
         };
         card.setOpaque(false);
-        card.setBackground(new Color(44, 44, 46)); // Card background
+        card.setBackground(new Color(44, 44, 46));
         card.setBorder(new EmptyBorder(12, 15, 12, 15));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        titleLabel.setForeground(new Color(161, 161, 170)); // Secondary Text
+        titleLabel.setForeground(new Color(161, 161, 170));
 
         valueLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        valueLabel.setForeground(new Color(245, 245, 247)); // Primary Text
+        valueLabel.setForeground(new Color(245, 245, 247));
 
         card.add(titleLabel, BorderLayout.NORTH);
         card.add(valueLabel, BorderLayout.CENTER);

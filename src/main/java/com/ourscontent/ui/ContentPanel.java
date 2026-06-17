@@ -39,6 +39,7 @@ public class ContentPanel extends JPanel {
         previewContainer = new JPanel(new GridLayout(1, 3, 10, 0));
         previewContainer.setOpaque(false);
         previewContainer.setPreferredSize(new Dimension(380, 0)); // Fixed width, vertical height stretches
+        previewContainer.setMaximumSize(new Dimension(380, 200));
 
         topRow.add(previewContainer, BorderLayout.WEST);
 
@@ -84,7 +85,13 @@ public class ContentPanel extends JPanel {
         tableContainer.add(tableWrapper, BorderLayout.CENTER);
         topRow.add(tableContainer, BorderLayout.CENTER);
 
-        add(topRow, BorderLayout.CENTER);
+        // Constrain the top row height so previews appear shorter
+        JPanel topRowWrapper = new JPanel(new BorderLayout());
+        topRowWrapper.setOpaque(false);
+        topRowWrapper.setPreferredSize(new Dimension(0, 200));
+        topRowWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+        topRowWrapper.add(topRow, BorderLayout.CENTER);
+        add(topRowWrapper, BorderLayout.CENTER);
 
         // Bottom Row: CRUD Form Card
         JPanel formCard = new JPanel(new BorderLayout(20, 10)) {
@@ -101,7 +108,7 @@ public class ContentPanel extends JPanel {
         };
         formCard.setOpaque(false);
         formCard.setBorder(new EmptyBorder(15, 15, 15, 15));
-        formCard.setPreferredSize(new Dimension(0, 180)); // set a reasonable preferred height for the bottom card
+        formCard.setPreferredSize(new Dimension(0, 250)); // taller form card
 
         // Fields Panel with GridBagLayout (2 rows, 3 columns)
         JPanel fieldsPanel = new JPanel(new GridBagLayout());
@@ -134,8 +141,8 @@ public class ContentPanel extends JPanel {
                 new LineBorder(MainFrame.borderColor, 1),
                 new EmptyBorder(2, 2, 2, 2)
         ));
-        descScroll.setPreferredSize(new Dimension(100, 30));
-        descScroll.setMinimumSize(new Dimension(100, 30));
+        descScroll.setPreferredSize(new Dimension(100, 60));
+        descScroll.setMinimumSize(new Dimension(100, 60));
 
         // Image Selection Field
         txtGambar = createStyledTextField();
@@ -162,7 +169,7 @@ public class ContentPanel extends JPanel {
         // Buttons Panel: 2x2 grid aligned on the right
         JPanel btnPanel = new JPanel(new GridLayout(2, 2, 8, 8));
         btnPanel.setOpaque(false);
-        btnPanel.setPreferredSize(new Dimension(240, 0));
+        btnPanel.setPreferredSize(new Dimension(240, 120));
 
         JButton btnSimpan = createStyledButton("Simpan", new Color(16, 185, 129));
         JButton btnEdit = createStyledButton("Edit", new Color(58, 58, 60));

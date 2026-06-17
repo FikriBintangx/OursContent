@@ -17,12 +17,12 @@ public class LoginFrame extends JFrame {
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
-    // Login components
+    // field-field di halaman login
     private JTextField txtLoginUser;
     private JPasswordField txtLoginPass;
     private RoundedButton btnLogin;
 
-    // Register components
+    // field-field di halaman register
     private JTextField txtRegName;
     private JTextField txtRegUser;
     private JPasswordField txtRegPass;
@@ -30,7 +30,7 @@ public class LoginFrame extends JFrame {
     public LoginFrame() {
         userDAO = new UserDAO();
 
-        // Apply Look and Feel
+        // pasang tema gelap FlatLaf
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
             UIManager.put("Panel.background", new Color(28, 28, 30));
@@ -38,7 +38,7 @@ public class LoginFrame extends JFrame {
             UIManager.put("Component.arc", 10);
             UIManager.put("TextComponent.arc", 10);
         } catch (Exception ex) {
-            System.err.println("Failed to initialize FlatDarkLaf in Login");
+            System.err.println("gagal pasang FlatDarkLaf: " + ex.getMessage());
         }
 
         setTitle("OursContent - Login");
@@ -47,17 +47,15 @@ public class LoginFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Main Background Panel
         JPanel mainPanel = new JPanel(new BorderLayout(0, 10));
         mainPanel.setBackground(new Color(28, 28, 30));
         mainPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        // Header Panel (Logo & Title)
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
 
-        // Logo
+        // coba load logo SVG, fallback ke teks kalau ga ketemu
         JLabel lblLogo = new JLabel();
         lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
         File svgFile = new File("assets/img/logoourss.svg");
@@ -80,14 +78,12 @@ public class LoginFrame extends JFrame {
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // Center Panel with CardLayout (Login / Register forms)
+        // switch antara form login & register pakai CardLayout
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         cardPanel.setOpaque(false);
 
-        // 1. Create Login Panel
         JPanel loginCard = createLoginPanel();
-        // 2. Create Register Panel
         JPanel registerCard = createRegisterPanel();
 
         cardPanel.add(loginCard, "LOGIN");
@@ -105,7 +101,7 @@ public class LoginFrame extends JFrame {
         panel.setOpaque(false);
         panel.setBorder(new EmptyBorder(20, 0, 10, 0));
 
-        // Username field
+
         JLabel lblUser = new JLabel("Username");
         lblUser.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblUser.setForeground(new Color(161, 161, 170));
@@ -122,7 +118,7 @@ public class LoginFrame extends JFrame {
         ));
         txtLoginUser.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Password field
+
         JLabel lblPass = new JLabel("Password");
         lblPass.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblPass.setForeground(new Color(161, 161, 170));
@@ -160,15 +156,13 @@ public class LoginFrame extends JFrame {
                 
                 boolean isRevealed = txtLoginPass.getEchoChar() == (char) 0;
                 
-                // Draw eye outline (upper and lower arcs)
-                g2.drawArc(x, y + 1, size, size - 4, 10, 160); // upper lid
-                g2.drawArc(x, y - 3, size, size - 4, 190, 160); // lower lid
-                
-                // Draw pupil (filled circle)
+                // bentuk bola mata
+                g2.drawArc(x, y + 1, size, size - 4, 10, 160);
+                g2.drawArc(x, y - 3, size, size - 4, 190, 160);
                 g2.fillOval(x + size/2 - 2, y + size/2 - 2, 4, 4);
                 
                 if (!isRevealed) {
-                    // Draw a slash line through the eye when hidden
+                    // garis coret kalau password masih disembunyikan
                     g2.drawLine(x + 2, y + 2, x + size - 2, y + size - 2);
                 }
                 
@@ -189,7 +183,7 @@ public class LoginFrame extends JFrame {
                 btnReveal.setForeground(new Color(161, 161, 170));
             } else {
                 txtLoginPass.setEchoChar((char) 0);
-                btnReveal.setForeground(new Color(250, 88, 106)); // Highlight red eye
+                btnReveal.setForeground(new Color(250, 88, 106));
             }
             btnReveal.repaint();
         });
@@ -197,16 +191,15 @@ public class LoginFrame extends JFrame {
         passWrapper.add(txtLoginPass, BorderLayout.CENTER);
         passWrapper.add(btnReveal, BorderLayout.EAST);
 
-        // Login Button
         btnLogin = new RoundedButton("Login");
         btnLogin.setMaximumSize(new Dimension(340, 38));
-        btnLogin.setBackground(new Color(250, 88, 106)); // Apple Red accent
+        btnLogin.setBackground(new Color(250, 88, 106));
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnLogin.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnLogin.addActionListener(this::handleLogin);
 
-        // Add components with struts
+
         panel.add(lblUser);
         panel.add(Box.createVerticalStrut(5));
         panel.add(txtLoginUser);
@@ -226,7 +219,7 @@ public class LoginFrame extends JFrame {
         panel.setOpaque(false);
         panel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
-        // Fullname field
+
         JLabel lblName = new JLabel("Nama Lengkap");
         lblName.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblName.setForeground(new Color(161, 161, 170));
@@ -243,7 +236,7 @@ public class LoginFrame extends JFrame {
         ));
         txtRegName.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Username field
+
         JLabel lblUser = new JLabel("Username");
         lblUser.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblUser.setForeground(new Color(161, 161, 170));
@@ -260,7 +253,7 @@ public class LoginFrame extends JFrame {
         ));
         txtRegUser.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Password field
+
         JLabel lblPass = new JLabel("Password");
         lblPass.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblPass.setForeground(new Color(161, 161, 170));
@@ -298,15 +291,13 @@ public class LoginFrame extends JFrame {
                 
                 boolean isRevealed = txtRegPass.getEchoChar() == (char) 0;
                 
-                // Draw eye outline (upper and lower arcs)
-                g2.drawArc(x, y + 1, size, size - 4, 10, 160); // upper lid
-                g2.drawArc(x, y - 3, size, size - 4, 190, 160); // lower lid
-                
-                // Draw pupil (filled circle)
+                // bentuk bola mata
+                g2.drawArc(x, y + 1, size, size - 4, 10, 160);
+                g2.drawArc(x, y - 3, size, size - 4, 190, 160);
                 g2.fillOval(x + size/2 - 2, y + size/2 - 2, 4, 4);
-                
+
                 if (!isRevealed) {
-                    // Draw a slash line through the eye when hidden
+                    // garis coret kalau password disembunyiin
                     g2.drawLine(x + 2, y + 2, x + size - 2, y + size - 2);
                 }
                 
@@ -327,7 +318,7 @@ public class LoginFrame extends JFrame {
                 btnReveal.setForeground(new Color(161, 161, 170));
             } else {
                 txtRegPass.setEchoChar((char) 0);
-                btnReveal.setForeground(new Color(250, 88, 106)); // Highlight red eye
+                btnReveal.setForeground(new Color(250, 88, 106));
             }
             btnReveal.repaint();
         });
@@ -335,16 +326,15 @@ public class LoginFrame extends JFrame {
         passWrapper.add(txtRegPass, BorderLayout.CENTER);
         passWrapper.add(btnReveal, BorderLayout.EAST);
 
-        // Register Button
         JButton btnRegister = new RoundedButton("Registrasi");
         btnRegister.setMaximumSize(new Dimension(340, 38));
-        btnRegister.setBackground(new Color(16, 185, 129)); // Apple Green accent
+        btnRegister.setBackground(new Color(16, 185, 129));
         btnRegister.setForeground(Color.WHITE);
         btnRegister.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnRegister.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnRegister.addActionListener(this::handleRegister);
 
-        // Switch to Login link
+
         JButton btnSwitch = new JButton("Sudah punya akun? Login disini");
         btnSwitch.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         btnSwitch.setForeground(new Color(14, 165, 233));
@@ -359,7 +349,7 @@ public class LoginFrame extends JFrame {
             cardLayout.show(cardPanel, "LOGIN");
         });
 
-        // Add components with struts
+
         panel.add(lblName);
         panel.add(Box.createVerticalStrut(5));
         panel.add(txtRegName);
@@ -388,18 +378,18 @@ public class LoginFrame extends JFrame {
             return;
         }
 
-        // Set UI loading state
+        // disable field pas lagi proses login
         btnLogin.setLoading(true);
         txtLoginUser.setEnabled(false);
         txtLoginPass.setEnabled(false);
 
-        // Authenticate background thread
+        // autentikasi di background thread biar UI ga freeze
         new Thread(() -> {
             User user = userDAO.authenticateUser(username, password);
             SwingUtilities.invokeLater(() -> {
                 if (user != null) {
                     OurIsland.show(this, "Login berhasil! Selamat datang.", OurIsland.IslandType.SUCCESS);
-                    // Hold 1.2s then launch mainframe
+                    // tunggu sebentar biar notif keliatan dulu
                     Timer timer = new Timer(1200, evt -> {
                         MainFrame mainFrame = new MainFrame(user);
                         mainFrame.setVisible(true);
@@ -409,7 +399,7 @@ public class LoginFrame extends JFrame {
                     timer.start();
                 } else {
                     OurIsland.show(this, "Username atau Password salah!", OurIsland.IslandType.ERROR);
-                    // Restore UI components state
+                    // balikin form ke normal kalau login gagal
                     btnLogin.setLoading(false);
                     txtLoginUser.setEnabled(true);
                     txtLoginPass.setEnabled(true);
